@@ -8,5 +8,9 @@ require 'sqlite3'
 
 
 get "/" do
-  erb :index
+  erb :layout
+end
+
+get "/contact" do
+  erb :contact, :layout  => :contact
 end
