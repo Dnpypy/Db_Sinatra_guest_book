@@ -3,14 +3,13 @@ require 'rubygems'
 require 'sinatra'
 require 'sinatra/reloader'
 
+def under_construction
+  @back = "<p>Under construction</p><a href='/'> back</a>"
+end
 
 get "/" do
   @title = "Гостевая книга"
   erb :index
-end
-
-def under_construction
-  @back = "<p>Under construction</p><a href='/'> back</a>"
 end
 
 get "/about" do
@@ -25,17 +24,19 @@ get "/portfolio" do
   under_construction
 end
 
+# contact reg panel
 get "/contact" do
   erb :contact
 end
 
+########################### РЕГИСТРАЦИЯ АККАУНТА ##########################
+# регистрация пользователя в гостевой книги
+
 post "/contact" do
 
-    # registration user in guest book
     @login       = params[:login]
     @email       = params[:email]
     @phone       = params[:phone]
-    # @date_time   = params[:d]
 
     # условия на проверку введенных данных
     if @psw != @psw_repeat
@@ -44,7 +45,7 @@ post "/contact" do
     else
 
       File.open("./public/users.txt", "a") do |file|
-         file.puts "login: #{@login}, phone: #{@phone}, mail:#{@email}, date message: #{@date_time}"
+         file.puts "login: #{@login}, phone: #{@phone}, mail:#{@email}, date message: #{Time.now}"
       end
 
       @reg_user = "login: #{@login}, phone: #{@phone}, mail:#{@email}, date_time: #{Time.now}"
@@ -52,10 +53,12 @@ post "/contact" do
     end
 end
 
+########################### Админ панель ##########################
 get "/admin" do
   erb :admin
 end
 
+# админ запрос чтение файла users и messages
 post "/admin" do
 
   @login       = params[:login]
@@ -71,6 +74,10 @@ post "/admin" do
       if @login == "admin" and @psw == "123"
         @welcome = "Проверка прошла успешно! #{under_construction}"
         # .....
+        File.open("./public/users.txt", "r") do |line|
+                @logfile = line.readlines
+        end
+
         erb :welcome
       else
         @access = " <p style='color:red'>Access denied</p>"
@@ -84,6 +91,26 @@ get "/welcome" do
   erb :welcome
 end
 
+####################### ЗАПИСЬ СООБЩЕНИЯ ПОЛЬЗОВАТЕЛЯ #########################
+
 get "/message" do
   erb :message
+end
+
+# запись сообщения пользователя
+post "/message" do
+
+  @login       = params[:login]
+  @email       = params[:email]
+  @phone       = params[:phone]
+  @message     = params[:message]
+
+    File.open("./public/messages.txt", "a") do |file|
+       file.puts "login: #{@login}, mail:#{@email}, date message: #{Time.now},
+       message #{@message}"
+    end
+
+    @mes_complete = "Сообщение записано!!!"
+    erb :complete
+
 end

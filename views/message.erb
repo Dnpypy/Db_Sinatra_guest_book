@@ -86,7 +86,7 @@ button:hover {
 
     <h1>Оставьте свое сообщение: </h1>
 
-<form action="/contact" method="POST" style="border:1px solid #ccc">
+<form action="/message" method="POST" style="border:1px solid #ccc">
   <div class="container">
 
     <label for="login"><b>Логин</b></label>
@@ -100,14 +100,15 @@ button:hover {
     <input type="text" placeholder="Введите почту" name="email"
     value="<%= @login %>" required>
     <br>
-    <label>
-      <br>
-      <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px">
-      Запомнить меня
-    </label>
-    <br>
-    <p>Создавая учетную запись, вы соглашаетесь с нашими условиями<a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
 
+    <div class="form-group">
+						  	<label for="myText">Оставьте ваше сообщение:</label>
+						  	<br>
+
+						  	<br>
+						  	<textarea name="message" value="<%=@message%>" id="" cols="38" rows="5"></textarea>
+		</div>
+<br>
     <div class="clearfix">
       <button type="button" class="cancelbtn">Отмена</button>
       <button type="submit" class="signupbtn">Регистрация</button>
