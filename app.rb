@@ -9,6 +9,22 @@ get "/" do
   erb :index
 end
 
+def under_construction
+  @back = "<p>Under construction</p><a href='/'> back</a>"
+end
+
+get "/about" do
+  under_construction
+end
+
+get "/blog" do
+  under_construction
+end
+
+get "/portfolio" do
+  under_construction
+end
+
 get "/contact" do
   erb :contact
 end
@@ -56,8 +72,9 @@ post "/admin" do
   else
       # проверка на вход пароля
       if @login == "admin" and @psw == "123"
-        @welcome = "Проверка прошла успешно!"
+        @welcome = "Проверка прошла успешно! #{under_construction}"
         # .....
+
         erb :welcome
       else
         @access = " <p style='color:red'>Access denied</p>"
@@ -68,5 +85,7 @@ post "/admin" do
 end
 
 get "/welcome" do
+
   erb :welcome
+
 end
