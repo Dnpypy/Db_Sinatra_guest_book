@@ -31,27 +31,25 @@ end
 
 post "/contact" do
 
-    # registration
+    # registration user in guest book
     @login       = params[:login]
     @email       = params[:email]
-    @psw         = params[:psw]
-    @psw_repeat  = params[:psw_repeat]
-
-    # проверка паролей на тип что ввожу
-    @check1 = @psw.class
-    @check2 = @psw_repeat.class
-    @check3 = @psw
-    @check4 = @psw_repeat
+    @phone       = params[:phone]
+    # @date_time   = params[:d]
 
     # условия на проверку введенных данных
     if @psw != @psw_repeat
       @alert_psw = " <p style='color:red'>Пароль не совпадает!!!</p>"
       erb :contact
     else
-      # @welcome = "Проверка прошла успешно!"
-      # erb :welcome
-    end
 
+      File.open("./public/users.txt", "a") do |file|
+         file.puts "login: #{@login}, phone: #{@phone}, mail:#{@email}, date message: #{@date_time}"
+      end
+
+      @reg_user = "login: #{@login}, phone: #{@phone}, mail:#{@email}, date_time: #{Time.now}"
+      erb :complete
+    end
 end
 
 get "/admin" do
@@ -64,7 +62,6 @@ post "/admin" do
   @psw         = params[:psw]
   @psw_repeat  = params[:psw_repeat]
 
-
   # проверка на совпадения пароля
   if @psw != @psw_repeat
     @alert_psw = " <p style='color:red'>Пароль не совпадает!!!</p>"
@@ -74,7 +71,6 @@ post "/admin" do
       if @login == "admin" and @psw == "123"
         @welcome = "Проверка прошла успешно! #{under_construction}"
         # .....
-
         erb :welcome
       else
         @access = " <p style='color:red'>Access denied</p>"
@@ -85,7 +81,9 @@ post "/admin" do
 end
 
 get "/welcome" do
-
   erb :welcome
+end
 
+get "/message" do
+  erb :message
 end
