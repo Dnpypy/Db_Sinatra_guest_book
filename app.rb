@@ -53,7 +53,7 @@ post "/contact" do
     end
 end
 
-########################### Админ панель ##########################
+########################### АДМИН ПАНЕЛЬ ##########################
 get "/admin" do
   erb :admin
 end
@@ -73,10 +73,14 @@ post "/admin" do
       # проверка на вход пароля
       if @login == "admin" and @psw == "123"
         @welcome = "Проверка прошла успешно! #{under_construction}"
-        # .....
+
+        # users file
         File.open("./public/users.txt", "r") do |line|
                 @logfile = line.readlines
         end
+
+        # messages file
+        # .............
 
         erb :welcome
       else

@@ -1,2 +1,25 @@
-<h1>Welcome</h1>
-<p><%= @welcome %></p>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Welcome</h1>
+    <p><%= @welcome %></p>
+
+
+
+<table border="1">
+
+
+    <tr ><td></td></tr>
+	<% @logfile.each do |line| %>
+  	<tr><td><%= line %></td></tr>
+
+		<% end %>
+	<tr ><td></td></tr>
+</table>
+
+  </body>
+</html>
