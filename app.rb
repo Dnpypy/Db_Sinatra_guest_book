@@ -5,6 +5,7 @@ require 'sinatra/reloader'
 
 
 get "/" do
+  @title = "Гостевая книга"
   erb :index
 end
 
@@ -14,31 +15,58 @@ end
 
 post "/contact" do
 
+    # registration
     @login       = params[:login]
     @email       = params[:email]
     @psw         = params[:psw]
     @psw_repeat  = params[:psw_repeat]
 
+    # проверка паролей на тип что ввожу
+    @check1 = @psw.class
+    @check2 = @psw_repeat.class
+    @check3 = @psw
+    @check4 = @psw_repeat
 
+    # условия на проверку введенных данных
     if @psw != @psw_repeat
-      @alert_psw = " <p style='color:red'>Введите повторный пароль!!!</p>"
+      @alert_psw = " <p style='color:red'>Пароль не совпадает!!!</p>"
       erb :contact
     else
-
-      erb :welcome
-
+      # @welcome = "Проверка прошла успешно!"
+      # erb :welcome
     end
 
-    # if @login == "admin" and @password == "1"
-    #   # @check = @password.class
-    #   erb :welcome
-    # end
+end
 
-    # redirect "/contact"
+get "/admin" do
+  erb :admin
+end
+
+post "/admin" do
+
+  @login       = params[:login]
+  @psw         = params[:psw]
+  @psw_repeat  = params[:psw_repeat]
+
+
+  # проверка на совпадения пароля
+  if @psw != @psw_repeat
+    @alert_psw = " <p style='color:red'>Пароль не совпадает!!!</p>"
+    erb :admin
+  else
+      # проверка на вход пароля
+      if @login == "admin" and @psw == "123"
+        @welcome = "Проверка прошла успешно!"
+        # .....
+        erb :welcome
+      else
+        @access = " <p style='color:red'>Access denied</p>"
+        erb :admin
+      end
+  end
 
 end
 
 get "/welcome" do
-  @alert_psw = "Введите повторный пароль"
   erb :welcome
 end

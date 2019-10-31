@@ -80,19 +80,14 @@ button:hover {
 
 <body>
 
-    <h1>Оставьте ваши контакты: </h1>
-
-<form action="/contact" method="POST" style="border:1px solid #ccc">
+    <h1>Вход в админ панель: </h1>
+    <h1><%= @access %></h1>
+<form action="/admin" method="POST" style="border:1px solid #ccc">
   <div class="container">
 
-    <label for="login"><b>Логин</b></label>
+    <label for="login"><b>Логин </b></label>
     <br>
     <input type="text" placeholder="Введите пользователя" name="login"
-    value="<%= @login %>" required>
-    <br>
-    <label for="email"><b>Почта</b></label>
-    <br>
-    <input type="text" placeholder="Введите почту" name="email"
     value="<%= @login %>" required>
     <br>
     <label for="psw"><b>Пароль</b></label>
@@ -103,14 +98,6 @@ button:hover {
     <br>
     <p><%= @alert_psw %></p>
     <input type="password" placeholder="Повторите пароль" name="psw_repeat" required>
-<!-- <br> -->
-    <label>
-      <br>
-      <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px">
-      Запомнить меня
-    </label>
-    <br>
-    <p>Создавая учетную запись, вы соглашаетесь с нашими условиями<a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
 
     <div class="clearfix">
       <button type="button" class="cancelbtn">Отмена</button>
