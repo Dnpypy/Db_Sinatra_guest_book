@@ -11,7 +11,11 @@ configure функция запускается каждый раз,
  при перезагрузки приложения.
 =end
 def get_db
-  return SQLite3::Database.new("Guestbook.db")
+  return SQLite3::Database.new("Guestbook_users.db")
+end
+
+def get_db_m
+  return SQLite3::Database.new("Guestbook_messages.db")
 end
 
 configure do
@@ -20,6 +24,7 @@ configure do
 
   # db = SQLite3::Database.new("Guestbook.db")
   @db = get_db
+  @db_m = get_db_m
 
   # создание базы данных, если она не существует
   @db.execute 'CREATE TABLE IF NOT EXISTS
@@ -29,6 +34,16 @@ configure do
               "login" TEXT,
               "email" TEXT,
               "phone" TEXT,
+              "datestamp" TEXT
+            )'
+
+  @db_m.execute 'CREATE TABLE IF NOT EXISTS
+              "Messages"
+            (
+              "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+              "login" TEXT,
+              "email" TEXT,
+              "message" TEXT,
               "datestamp" TEXT
             )'
   # @db.close
@@ -117,9 +132,7 @@ post "/admin" do
         # отображение базы данных с двуми таблицами в админ панели
 
         # users file
-        File.open("./public/users.txt", "r") do |line|
-                @logfile = line.readlines
-        end
+        #............
 
         # messages file
         # .............
@@ -148,13 +161,20 @@ post "/message" do
 
   @login       = params[:login]
   @email       = params[:email]
-  @phone       = params[:phone]
+  # @phone       = params[:phone]
+  @date        = params[:date]
   @message     = params[:message]
 
-    File.open("./public/messages.txt", "a") do |file|
-       file.puts "login: #{@login}, mail:#{@email}, date message: #{Time.now},
-       message #{@message}"
-    end
+    db_m = get_db_m
+    db_m.execute 'INSERT INTO Messages
+  								(
+                    login ,
+  									email ,
+  									datestamp ,
+  									message
+                  )
+                  values(?,?,?,?)', [@login, @email, @date, @message]
+
 
     @mes_complete = "Сообщение записано!!!"
     erb :complete
