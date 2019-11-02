@@ -10,13 +10,16 @@ require 'sqlite3'
 configure функция запускается каждый раз,
  при перезагрузки приложения.
 =end
+def get_db
+  return SQLite3::Database.new("Guestbook.db")
+end
 
 configure do
   # сделать базу данных с двумя таблицами
   # users и messages при регистрации
 
   # db = SQLite3::Database.new("Guestbook.db")
-  @db = SQLite3::Database.new("Guestbook.db")
+  @db = get_db
 
   # создание базы данных, если она не существует
   @db.execute 'CREATE TABLE IF NOT EXISTS
@@ -25,21 +28,12 @@ configure do
               "id" INTEGER PRIMARY KEY AUTOINCREMENT,
               "login" TEXT,
               "email" TEXT,
-              "phone" INTEGER,
+              "phone" TEXT,
               "datestamp" TEXT
             )'
-  @db.close
-  end
-    # @db.execute 'CREATE TABLE IF NOT EXISTS
-  	# 							"Users"
-  	# 							(
-  	# 								"Id" INTEGER PRIMARY KEY AUTOINCREMENT,
-  	# 								"username" TEXT,
-  	# 								"phone" TEXT,
-  	# 								"datestamp" TEXT,
-  	# 								"barber" TEXT,
-  	# 								"color" TEXT
-  	# 							)'
+  # @db.close
+end
+
 
 
 
@@ -79,12 +73,22 @@ post "/contact" do
     @login       = params[:login]
     @email       = params[:email]
     @phone       = params[:phone]
-
+    # @dat        = Time.now
+    @date        = params[:date]
   # условия на проверку введенных данных
     # .....
+# "Id" INTEGER PRIMARY KEY AUTOINCREMENT,
+  db = get_db
+  db.execute 'INSERT INTO Users
+								(
+                  login ,
+									email ,
+									phone ,
+									datestamp
+                )
+                values(?,?,?,?)', [@login, @email, @phone, @date]
 
-
-    @reg_user = "login: #{@login}, phone: #{@phone}, mail:#{@email}, date_time: #{Time.now}"
+    @reg_user = "login: #{@login}, phone: #{@phone}, mail:#{@email}, date_time: #{@date}"
     erb :complete
 end
 
