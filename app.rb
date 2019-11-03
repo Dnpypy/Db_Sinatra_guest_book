@@ -49,9 +49,6 @@ configure do
   # @db.close
 end
 
-
-
-
 # метод отображения на 3 вкладках предупреждения
 def under_construction
   @back = "<p>Under construction</p><a href='/'> back</a>"
@@ -132,10 +129,14 @@ post "/admin" do
         # отображение базы данных с двуми таблицами в админ панели
 
         # users file
-        #............
+        @db = get_db
+        @users = @db.execute "SELECT * FROM 'Users'"
 
         # messages file
         # .............
+        @db_m = get_db_m
+        @messages = @db_m.execute "SELECT * FROM 'Messages'"
+
 
         erb :welcome
       else

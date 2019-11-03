@@ -6,15 +6,24 @@
   </head>
   <body>
     <h1>Welcome</h1>
-    <p><%= @welcome %></p>
 
+<table border="1">
+
+
+    <tr ><td></td></tr>
+	<% @users.each do |line| %>
+  	<tr><td><%= line %></td></tr>
+
+		<% end %>
+	<tr ><td></td></tr>
+</table>
 
 
 <table border="1">
 
 
     <tr ><td></td></tr>
-	<% @logfile.each do |line| %>
+	<% @messages.each do |line| %>
   	<tr><td><%= line %></td></tr>
 
 		<% end %>
